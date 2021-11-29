@@ -1,0 +1,26 @@
+# 모델 구축
+model = Sequential([
+                    Conv2D(32, (3,3), activation = 'relu', input_shape=x_train.shape[1:]),
+                    MaxPooling2D(2,2),
+                    Dropout(0.5),
+                    Conv2D(64,(3,3), activation = 'relu'),
+                    MaxPooling2D(2,2),
+                    Dropout(0.5),
+                    Flatten(),
+                    Dense(128, activation = 'relu'),
+                    Dropout(0.5),
+                    Dense(nb_classes, activation = 'softmax')
+                    ])
+
+# 모델 컴파일
+model.compile(loss='binary_crossentropy', 
+              optimizer='rmsprop', 
+              metrics=['acc'])
+
+# 모델 학습
+history = model.fit(x_train, y_train,
+                    validation_data=(x_test, y_test),
+                    batch_size=32,
+                    epochs=100,
+                    verbose=0,
+                    callbacks=[checkpoint])
